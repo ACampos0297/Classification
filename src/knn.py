@@ -1,3 +1,5 @@
+import math
+
 from data import Dataset, Labels
 from utils import evaluate
 import os, sys
@@ -19,7 +21,6 @@ class KNN:
 		You need to transform the documents into vector space before saving
 		in self.bow.
 		"""
-		docfrec = {}
 		for d in ds:
 			docfrec = dict()
 			string = d[1].lower()
@@ -30,7 +31,6 @@ class KNN:
 				else:
 					docfrec[word] = 1
 			self.bow.append((d[0],docfrec))
-		print(self.bow)
 
 	def predict(self, x):
 		"""
@@ -41,7 +41,18 @@ class KNN:
 		2. Find k nearest neighbors.
 		3. Return the class which is most common in the neighbors.
 		"""
-
+		string = x.lower()
+		splits = string.split()
+		docfrec = dict()
+		for word in splits:
+			if word in docfrec:
+				docfrec[word] += 1.0
+			else:
+				docfrec[word] = 1.0
+		docfrecsq = dict()
+		for word in docfrec:
+			docfrecsq[word] = math.pow(docfrec[word],2)
+		
 		return Labels(0)
 
 def main(train_split):
@@ -49,10 +60,11 @@ def main(train_split):
 	ds = Dataset(train_split).fetch()
 	val_ds = Dataset('val').fetch()
 	knn.train(ds)
-"""
+
 	# Evaluate the trained model on training data set.
 	print('-'*20 + ' TRAIN ' + '-'*20)
 	evaluate(knn, ds)
+"""
 	# Evaluate the trained model on validation data set.
 	print('-'*20 + ' VAL ' + '-'*20)
 	evaluate(knn, val_ds)

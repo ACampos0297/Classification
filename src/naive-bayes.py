@@ -64,10 +64,10 @@ class NaiveBayes:
 			score = 0
 			for word in splits:
 				if word in self.vocab[label]:
-					score += math.log((self.vocab[label][word] + 1) / (self.countInLabel[label] + abs(self.vocab_len + 1)))
+					score += math.log((self.vocab[label][word] + 1.0) / float(self.countInLabel[label] + abs(self.vocab_len + 1)))
 				else:
-					score += math.log((1) / (self.countInLabel[label] + abs(self.vocab_len + 1)))
-			score += math.log(1/len(Labels))
+					score += math.log(1.0 / float(self.countInLabel[label] + abs(self.vocab_len + 1)))
+			score += math.log(1.0/len(Labels))
 			scores[label] = score
 		return max(scores.items(), key=operator.itemgetter(1))[0]
 
