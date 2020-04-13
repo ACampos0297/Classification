@@ -1,6 +1,7 @@
 from data import Dataset, Labels
 from utils import evaluate
 import os, sys
+import string
 
 K = 5
 
@@ -18,7 +19,21 @@ class KNN:
 		You need to transform the documents into vector space before saving
 		in self.bow.
 		"""
-		pass
+		df = {}
+
+		for d in ds:
+			df[d[0]] = dict()
+			string = d[1].lower()
+			splits = string.split()
+			for word in splits:
+				if word in df[d[0]]:
+					df[d[0]][word] += 1
+				else:
+					df[d[0]][word] = 1
+		print(df[ds[0][0]])
+
+
+
 
 	def predict(self, x):
 		"""
@@ -36,7 +51,7 @@ def main(train_split):
 	ds = Dataset(train_split).fetch()
 	val_ds = Dataset('val').fetch()
 	knn.train(ds)
-
+"""
 	# Evaluate the trained model on training data set.
 	print('-'*20 + ' TRAIN ' + '-'*20)
 	evaluate(knn, ds)
@@ -51,7 +66,7 @@ def main(train_split):
 		print('\n' + '-'*20 + ' TEST ' + '-'*20)
 		test_ds = Dataset('test').fetch()
 		evaluate(knn, test_ds)
-
+"""
 
 if __name__ == "__main__":
 	train_split = 'train'

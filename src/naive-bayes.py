@@ -1,3 +1,5 @@
+import string
+
 from data import Dataset, Labels
 from utils import evaluate
 import operator
@@ -30,7 +32,8 @@ class NaiveBayes:
 		for d in ds:
 			self.n_doc_total += 1
 			self.n_doc[d[2]] += 1
-			splits = d[1].split()
+			string = d[1].lower()
+			splits = string.split()
 			for word in splits:
 				v.add(word)
 				if word in self.vocab[d[2]]:
@@ -54,7 +57,8 @@ class NaiveBayes:
 		Use MAP estimation to return the Label with hight score as
 		the predicted label.
 		"""
-		splits = x.split()
+		string = x.lower()
+		splits = string.split()
 		scores = {l: 0 for l in Labels}
 		for label in Labels:
 			score = 0
