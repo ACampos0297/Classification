@@ -19,21 +19,18 @@ class KNN:
 		You need to transform the documents into vector space before saving
 		in self.bow.
 		"""
-		df = {}
-
+		docfrec = {}
 		for d in ds:
-			df[d[0]] = dict()
+			docfrec = dict()
 			string = d[1].lower()
 			splits = string.split()
 			for word in splits:
-				if word in df[d[0]]:
-					df[d[0]][word] += 1
+				if word in docfrec:
+					docfrec[word] += 1
 				else:
-					df[d[0]][word] = 1
-		print(df[ds[0][0]])
-
-
-
+					docfrec[word] = 1
+			self.bow.append((d[0],docfrec))
+		print(self.bow)
 
 	def predict(self, x):
 		"""
@@ -44,6 +41,7 @@ class KNN:
 		2. Find k nearest neighbors.
 		3. Return the class which is most common in the neighbors.
 		"""
+
 		return Labels(0)
 
 def main(train_split):
