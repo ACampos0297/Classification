@@ -22,6 +22,16 @@ class NaiveBayes:
 		self.n_doc and self.vocab.
 		"""
 
+		for d in ds:
+			self.n_doc_total += 1
+			self.n_doc[d[2]] += 1
+			splits = d[1].split()
+			for word in splits:
+				if word in self.vocab[d[2]]:
+					self.vocab[d[2]][word] += 1
+				else:
+					self.vocab[d[2]][word] = 1
+
 	def predict(self, x):
 		"""
 		x: string of words in the document.
@@ -40,7 +50,7 @@ def main(train_split):
 	ds = Dataset(train_split).fetch()
 	val_ds = Dataset('val').fetch()
 	nb.train(ds)
-	
+	'''
 	# Evaluate the trained model on training data set.
 	print('-'*20 + ' TRAIN ' + '-'*20)
 	evaluate(nb, ds)
@@ -55,7 +65,7 @@ def main(train_split):
 		print('\n' + '-'*20 + ' TEST ' + '-'*20)
 		test_ds = Dataset('test').fetch()
 		evaluate(nb, test_ds)
-
+	'''
 
 if __name__ == "__main__":
 	train_split = 'train'
