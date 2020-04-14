@@ -27,9 +27,9 @@ class KNN:
 			splits = string.split()
 			for word in splits:
 				if word in docfrec:
-					docfrec[word] += 1
+					docfrec[word] += 1.0
 				else:
-					docfrec[word] = 1
+					docfrec[word] = 1.0
 			self.bow.append((d[2], docfrec))
 
 	def predict(self, x):
@@ -54,6 +54,7 @@ class KNN:
 		for word in docfrec:
 			docfrecsq[word] = math.pow(docfrec[word], 2)
 
+		#cosine similarities
 		scores = dict()
 		for doc in self.bow:
 			similarity = sum(docfrec[key]*doc[1].get(key, 0) for key in docfrec)
